@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — SmartyMe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only light;
+  /* ---- SmartyMe, extracted from their live screens ---- */
+  --sm-green:#08A33C; --sm-green-dk:#2F7D33; --sm-green-cta:#3A7D3C; --sm-mint:#B6EBAF; --sm-mint-line:#12A43F; --sm-mint2:#EAFBE3; --sm-mint2-line:#B5E8B0;
+  --sm-blue:#2F7BEA; --sm-ink:#222326; --sm-txt:#3B3D44; --sm-muted:#77797F; --sm-navy:#2A2F4A; --sm-card-g1:#71B367; --sm-card-g2:#478B3F;
+  --sm-claim:#82D47A; --sm-star:#F6B800; --sm-bg:#F7F8FC;
+  --r-ctl:14px; --r-media:16px;
+  /* ---- the report shell, in SmartyMe's own palette ---- */
+  --bg:#F5F8F3; --bg2:#FFFFFF; --surf:#FFFFFF;
+  --hair:rgba(34,35,38,.09); --hair2:rgba(34,35,38,.16);
+  --ink:#222326; --ink2:#4B4F55; --ink3:#868A90;
+  --accent:#08A33C; --accent-lift:#0A7F30;
+  --panel:#FFFFFF; --panel-ink:#15171A; --panel-muted:#5F646A; --panel-line:#E9ECEA;
+  --accent-ink:#087A2E;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 20px}}
+.nav{position:sticky;top:0;z-index:70;background:rgba(245,248,243,.86);backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 20px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600}
+.nav-brand .mk{width:26px;height:26px;flex:none;display:block;border-radius:7px;overflow:hidden}
+.nav-brand .mk img{width:26px;height:26px;display:block}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-links{margin-left:auto;display:flex;gap:2px}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink3)}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#fff;box-shadow:0 1px 4px rgba(34,35,38,.08)}
+@media(max-width:640px){.nav-brand span{display:none}}
+.view{display:none}.view.on{display:block}
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);width:1100px;height:640px;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(8,163,60,.16),transparent 72%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(40% 50% at 8% 20%,rgba(182,235,175,.45),transparent 70%),radial-gradient(38% 45% at 92% 18%,rgba(246,184,0,.12),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-size:76px;line-height:.98;font-weight:700;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;color:var(--ink2);max-width:600px;margin:0 auto}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3)}
+.hero .meta b{color:var(--ink2);font-weight:600}
+.stats{display:flex;justify-content:center;margin:70px auto 0;max-width:760px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(8,163,60,.16);display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2)}
+.fb-i p b{color:var(--ink);font-weight:700}
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:700;letter-spacing:-.035em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px}
+.sec p.body b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--hair)}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);box-shadow:0 2px 10px rgba(34,35,38,.04);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:700;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2)}
+.ideas{display:flex;flex-direction:column;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.7)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:700;color:var(--ink3);padding-top:4px}
+.idea h3{font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-size:19px;font-weight:700;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;font-weight:600;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;box-shadow:0 2px 10px rgba(34,35,38,.04);padding:40px 44px;margin-top:44px;display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2)}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:700;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.cta-row{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;margin-top:52px}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;font-size:15px;font-weight:700;padding:15px 26px;border-radius:30px}
+.bigbtn:hover{filter:brightness(1.08)}
+.bigbtn svg{width:15px;height:15px}
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--hair2);font-size:14px;font-weight:700;padding:9px 20px 9px 9px;border-radius:30px;box-shadow:0 2px 12px rgba(34,35,38,.06)}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;border-radius:46px;box-shadow:0 0 0 1.5px #D3D8D2,0 34px 70px -22px rgba(34,35,38,.35)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--sm-bg);color-scheme:only light}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:700 15px/1 'Inter',sans-serif;color:#111;transition:opacity .2s}
+.sbar.light{color:#fff}
+.sbar.off{opacity:0}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:56;pointer-events:none}
+.homebar.light{background:rgba(255,255,255,.9)}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--sm-bg)}
+
+/* ============ phone screens — SmartyMe's system, all prefixed scr-/sm- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--sm-bg);color:var(--sm-ink);font-family:'Inter',-apple-system,sans-serif;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:56px 22px 0;position:relative;z-index:2}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 22px;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-foot{flex:none;padding:10px 16px 26px;position:relative;z-index:2}
+.sm-lx{font-family:'Lexend',sans-serif}
+
+/* membership card */
+.scr--card .scr-top{text-align:center;padding-top:86px}
+.sm-wel{font:400 19px/1.2 'Lexend',sans-serif;color:#3E8E3A}
+.sm-ct{font:400 33px/1.22 'Lexend',sans-serif;color:var(--sm-navy);margin-top:10px;letter-spacing:-.01em}
+.sm-cs{font:300 17px/1.5 'Lexend',sans-serif;color:#4A4F68;margin-top:12px}
+.sm-cardwrap{position:relative;margin:24px auto 0;width:258px}
+.sm-card{position:relative;width:258px;border-radius:10px;background:linear-gradient(180deg,var(--sm-card-g1),var(--sm-card-g2));border:1.5px solid #3C8A35;box-shadow:0 18px 40px -16px rgba(34,80,30,.45);text-align:center;color:#fff;padding:0 0 12px;overflow:hidden}
+.sm-ctab{display:inline-block;background:#3F8F3A;border-radius:0 0 6px 6px;padding:6px 18px;font:400 13px/1.2 'Lexend',sans-serif}
+.sm-mag{width:118px;height:118px;margin:14px auto 0;display:block;-webkit-mask-image:radial-gradient(closest-side,#000 82%,transparent);mask-image:radial-gradient(closest-side,#000 82%,transparent)}
+.sm-cname{font:400 22px/1.12 'Lexend',sans-serif;margin-top:12px}
+.sm-clvl{font:300 15px/1 'Lexend',sans-serif;color:rgba(255,255,255,.8);margin-top:6px}
+.sm-cgoal{display:inline-flex;gap:6px;margin-top:12px;background:rgba(255,255,255,.18);border-radius:12px;padding:5px 11px;font:400 12.5px/1.2 'Lexend',sans-serif}
+.sm-chr{height:1px;background:rgba(255,255,255,.4);margin:14px 10px 10px}
+.sm-cdate{display:flex;align-items:center;justify-content:center;gap:8px;font:400 12.5px/1 'Lexend',sans-serif}
+.sm-cdate svg{width:22px;height:22px}
+.sm-st{position:absolute;fill:#F5B21A}
+.sm-claim{display:block;width:100%;height:50px;border-radius:14px;background:var(--sm-claim);color:var(--sm-navy);font:400 17px/1 'Lexend',sans-serif}
+
+/* paywall one — "Choose your plan" */
+.scr--pay{background:linear-gradient(180deg,#FFFFFF 0%,#F2FFEC 40%,#DCFFCF 100%)}
+.sm-x{position:absolute;right:20px;top:56px;width:36px;height:36px;border-radius:50%;border:1.5px solid #C6C8CC;display:grid;place-items:center;color:#A2A5AA;z-index:5;background:rgba(255,255,255,.6)}
+.sm-x svg{width:16px;height:16px}
+.sm-ph{font-size:29px;line-height:1.14;font-weight:700;letter-spacing:-.03em;text-align:center;margin-top:30px;color:var(--sm-ink)}
+.sm-psub{font-size:15px;color:var(--sm-txt);text-align:center;margin-top:8px}
+.sm-stars{display:flex;justify-content:center;gap:6px;margin-top:12px}
+.sm-stars svg{width:22px;height:22px;fill:var(--sm-star)}
+.sm-quote{font-size:15.5px;line-height:1.36;text-align:center;margin:6px 6px 0;color:var(--sm-ink)}
+.sm-qmeta{display:flex;justify-content:space-between;font-size:13.5px;color:var(--sm-muted);margin:10px 18px 0}
+.sm-proofrow{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;background:#E3EEE1;border-radius:14px;padding:4px 10px}
+.sm-proofrow img.l{height:40px;width:auto}
+.sm-proofrow div{text-align:center}
+.sm-proofrow b{display:block;font-size:20px;font-weight:700;letter-spacing:-.01em}
+.sm-proofrow span{display:block;font-size:12px;color:#5E6A5C}
+.sm-trust{display:block;width:240px;margin:8px auto 0;border-radius:6px;mix-blend-mode:multiply}
+.sm-what{margin-top:14px;background:#EFFBEA;border:1px solid #CFEFC6;border-radius:16px;padding:12px 16px}
+.sm-what h4{font-size:15.5px;font-weight:700;margin-bottom:6px}
+.sm-what p{font-size:14px;line-height:1.4;color:var(--sm-txt);display:flex;gap:12px;padding:3px 0}
+.sm-plans{display:flex;flex-direction:column;gap:12px;margin-top:24px;padding-bottom:4px}
+.sm-plan{position:relative;display:block;width:100%;text-align:left;background:var(--sm-mint2);border:2px solid var(--sm-mint2-line);border-radius:14px;padding:10px 16px}
+.sm-plan.on{background:var(--sm-mint);border-color:var(--sm-mint-line)}
+.sm-plan .t{display:block;font-size:17px;font-weight:500;letter-spacing:.01em;color:var(--sm-ink)}
+.sm-plan .r{display:flex;justify-content:space-between;align-items:baseline;margin-top:5px}
+.sm-plan .r b{font-size:17px;font-weight:700}
+.sm-plan .r span{font-size:17px;font-weight:700;color:var(--sm-green)}
+.sm-save{position:absolute;right:14px;top:-15px;background:var(--sm-blue);color:#fff;font:500 14px/1 'Inter',sans-serif;padding:7px 14px;border-radius:15px;letter-spacing:.02em}
+.sm-cont{display:block;width:100%;height:56px;border-radius:14px;background:var(--sm-green);color:#fff;font:600 19px/1 'Inter',sans-serif}
+.sm-safe{display:flex;align-items:center;justify-content:center;gap:10px;font-size:14.5px;color:var(--sm-muted);margin-top:12px}
+.sm-safe svg{width:20px;height:20px;stroke:var(--sm-muted);stroke-width:1.6;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.sm-legal{display:flex;justify-content:space-around;margin-top:12px}
+.sm-legal a{font-size:14px;color:var(--sm-muted);text-decoration:none}
+
+/* the surprise, over home */
+.scr--home{background:#737375}
+.sm-homeimg.bot{top:auto;bottom:0}
+.sm-homeimg{position:absolute;left:0;right:0;top:50px;width:100%;height:auto;display:block;z-index:0}
+.sm-dim{position:absolute;inset:0;background:rgba(242,242,244,.0);z-index:1}
+.sm-modal{position:absolute;left:39px;right:39px;top:284px;z-index:3;background:#fff;border-radius:22px;padding:4px 16px 16px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.12)}
+.sm-modal img{width:170px;height:auto;display:block;margin:0 auto}
+.sm-modal h3{font:400 21px/1.2 'Lexend',sans-serif;color:var(--sm-navy);margin-top:4px}
+.sm-modal p{font:300 14px/1.4 'Lexend',sans-serif;color:#4A4F68;margin-top:6px}
+.sm-reveal{display:block;width:100%;height:48px;border-radius:14px;background:var(--sm-claim);color:var(--sm-navy);font:400 17px/1 'Lexend',sans-serif;margin-top:14px}
+
+/* gift paywall — their green paywall, now with a real gift */
+.scr--gift{background:linear-gradient(180deg,#2E8B3A 0%,#4EA548 45%,#7DD86A 100%);color:#fff}
+.scr--gift .sm-x{background:rgba(255,255,255,.75);border:none;color:#3A3A3A;top:58px}
+.sm-gh{font-size:33px;line-height:1.14;font-weight:700;letter-spacing:-.02em;margin-top:22px;padding-right:48px}
+.sm-gs{font-size:17px;line-height:1.4;color:rgba(255,255,255,.92);margin-top:10px}
+.sm-gcard{position:relative;margin-top:22px;background:#fff;border-radius:18px;padding:16px 18px;color:var(--sm-ink)}
+.sm-gcard .tag{position:absolute;right:12px;top:-14px;background:#2E7D32;color:#fff;font:600 14px/1 'Inter',sans-serif;padding:6px 10px;border-radius:7px}
+.sm-gcard .t{display:flex;justify-content:space-between;align-items:baseline}
+.sm-gcard .t b{font-size:20px;font-weight:600}
+.sm-gcard .t span{font-size:14.5px;color:#777}
+.sm-gcard .s{font-size:14.5px;color:#666;margin-top:6px;font-weight:500}
+.sm-gcard .s s{color:#999}
+.sm-gcard .was{margin-top:10px;padding-top:10px;border-top:1px solid #ECECEC;font-size:13.5px;color:#4A6B47}
+.sm-gwhat{margin-top:16px;background:rgba(255,255,255,.14);border-radius:18px;padding:16px 20px}
+.sm-gwhat h4{font-size:19px;font-weight:700;margin-bottom:8px}
+.sm-gwhat p{font-size:15.5px;line-height:1.35;display:flex;gap:16px;padding:5px 0}
+.sm-gproof{margin-top:16px;background:#E3EEE1;border-radius:18px;padding:12px;color:var(--sm-ink);text-align:center}
+.scr--gift .scr-foot{background:linear-gradient(180deg,rgba(125,216,106,0),#86DB73 30%)}
+.sm-gcont{display:block;width:100%;height:56px;border-radius:14px;background:var(--sm-green-cta);color:#fff;font:500 19px/1 'Inter',sans-serif}
+.scr--gift .sm-safe{color:#2E4A2C} .scr--gift .sm-safe svg{stroke:#2E4A2C}
+.sm-toast{position:absolute;left:20px;right:20px;bottom:130px;z-index:80;background:rgba(34,35,38,.94);color:#fff;border-radius:14px;padding:12px 14px;font-size:13.5px;text-align:center;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+.sm-toast.on{opacity:1;transform:none}
+
+/* dark mode — an approximation: SmartyMe ships light and no dark frames exist */
+.phone-in.dark{--sm-bg:#111412;--sm-ink:#EEF2EC;--sm-txt:#C3CAC1;--sm-muted:#8D958B;--sm-navy:#E6EAF4;--sm-mint:#1F4A24;--sm-mint2:#18221A;--sm-mint2-line:#2C4A2E;background:var(--sm-bg)}
+.phone-in.dark .screenwrap{background:var(--sm-bg)}
+.phone-in.dark .scr--pay{background:linear-gradient(180deg,#111412 0%,#14201A 55%,#173022 100%)}
+.phone-in.dark .sm-proofrow,.phone-in.dark .sm-gproof{background:#1E2A1F}
+.phone-in.dark .sm-proofrow span{color:#9BA899}
+.phone-in.dark .sm-trust,.phone-in.dark .sm-proofrow img.l{filter:invert(1) hue-rotate(180deg) brightness(1.1)}
+.phone-in.dark .sm-what{background:#18221A;border-color:#2C4A2E}
+.phone-in.dark .sm-x{background:rgba(255,255,255,.08);border-color:#3A403A}
+.phone-in.dark .sm-wel{color:#7FCB76}
+.phone-in.dark .sm-cs{color:#A9B0C4}
+.phone-in.dark .scr--gift{background:linear-gradient(180deg,#123A17 0%,#1E5222 55%,#2C6E2E 100%)}
+.phone-in.dark .scr--gift .scr-foot{background:linear-gradient(180deg,rgba(44,110,46,0),#2C6E2E 30%)}
+.phone-in.dark .sm-gcard{background:#1B241C;color:#EEF2EC}
+.phone-in.dark .sm-gcard .s,.phone-in.dark .sm-gcard .t span{color:#AAB4A8}
+.phone-in.dark .sm-gcard .was{border-color:#2C3A2D;color:#9FD89A}
+.phone-in.dark .scr--gift .sm-safe{color:#D6E8D3} .phone-in.dark .scr--gift .sm-safe svg{stroke:#D6E8D3}
+.phone-in.dark .sm-modal{background:#1B1F1C} .phone-in.dark .sm-modal h3{color:#EEF2EC} .phone-in.dark .sm-modal p{color:#AAB4A8}
+.phone-in.dark .sm-homeimg{filter:brightness(.4)}
+.phone-in.dark .sm-claim,.phone-in.dark .sm-reveal{color:#1E2A20}
+
+/* prototype toolbar, walkthrough, QR */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+.seg{display:inline-flex;align-items:center;background:#fff;border:1px solid #E1E4E2;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:600 12px/1 'Inter',sans-serif;color:var(--ink2)}
+.seg button.on{background:var(--ink);color:#fff}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:var(--accent);color:#fff;font:700 12px/1 'Inter',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--hair);border-radius:16px;padding:14px 14px 12px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(34,35,38,.07)}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#EEF0F1}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;color:var(--ink);font-weight:500}
+.demo-cap button{font:700 12px/1 'Inter',sans-serif;color:var(--ink2);padding:7px 10px;border-radius:12px;border:1px solid #E1E4E2;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(34,35,38,.26);border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(34,35,38,.4)}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:10px 16px 10px 10px;text-align:left}
+.qr img{width:135px;height:135px;display:block;image-rendering:pixelated;border-radius:6px}
+.qr span{font-size:12.5px;line-height:1.45;color:var(--ink2)}
+.qr b{display:block;color:var(--ink);font-size:13.5px}
+@media(max-width:1080px){.qr{display:none}}
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3}
+#view-proto .ctl{order:4} #view-proto .chiphint{order:5} #view-proto .qr{order:6}
+.cta-row .qr{order:2}
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:16px}
+  #view-proto .scr--card .scr-top{padding-top:30px}
+  #view-proto .sm-x{top:14px}
+  #view-proto .sm-ph{margin-top:14px}
+  #view-proto .sm-homeimg{margin-top:-56px}
+  #view-proto .sm-modal{top:228px}
+  #view-proto .scr-foot{padding-bottom:18px}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .ctl{order:5;padding:0 12px}
+  #view-proto .chiphint{order:6}
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #E1E4E2;background:#fff;font:600 12px/1 'Inter',sans-serif;color:var(--ink2)}
+.chip:hover{color:var(--ink);border-color:#C9CEC9}
+.chip.offer{border-style:dashed;border-color:var(--accent);color:var(--accent-lift)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff;border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);max-width:430px}
+.ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:470px}
+.ctl span{font:700 10px/1 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-right:2px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:700;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E3236;margin:16px 0 0}
+.pn-hyp b{font-weight:700;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:700;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E3236;font-weight:700}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:26px 0}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.2c.5 0 .9.3 1.1.7l2.5 5.1 5.6.8c.9.1 1.3 1.3.6 1.9l-4 3.9 1 5.6c.2.9-.8 1.6-1.6 1.2L12 18.7l-5 2.7c-.8.4-1.8-.3-1.6-1.2l1-5.6-4-3.9c-.7-.6-.3-1.8.6-1.9l5.6-.8 2.5-5.1c.2-.4.6-.7 1.1-.7Z"/></symbol>
+  <symbol id="shield" viewBox="0 0 24 24"><path d="M12 2.8 4.5 5.6v6.1c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V5.6L12 2.8Z"/><path d="m8.6 12.2 2.4 2.4 4.5-4.6"/></symbol>
+</defs></svg>
+
+<div class="nav"><div class="nav-in">
+  <div class="nav-brand"><span class="mk"><img src="img/icon.png" alt="SmartyMe"></span><b>Growth Audit</b><span>· SmartyMe</span></div>
+  <div class="nav-links"><button class="on" data-view="over">Overview</button><button data-view="proto">Prototype</button></div>
+</div></div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+<div class="hero"><div class="wrap">
+  <div class="eyebrow">Growth Audit · October 2026</div>
+  <h1>SmartyMe</h1>
+  <p class="lede">Four ideas to unlock more revenue from the traffic you already have.</p>
+  <div class="meta">Prepared by <b>Adapty</b> · based on your live iOS flow and your App Store listing</div>
+  <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Watch the 30-second walkthrough</button></div>
+  <div class="stats">
+    <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+    <div class="stat"><b>4</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+    <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+  </div>
+  <div class="fb">
+    <div class="fb-k">Built in Adapty Flow Builder</div>
+    <div class="fb-i"><span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p></div>
+    <div class="fb-i"><span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p></div>
+  </div>
+</div></div>
+
+<div class="sec"><div class="wrap">
+  <div class="sec-k">What this is</div>
+  <h2>We opened SmartyMe the way a new learner does, then rebuilt the parts we think are leaving money on the table.</h2>
+  <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we get to see what actually moves conversion and ARPU across the market rather than inside one app. We pointed that at SmartyMe: installed it, went through the first paywall, the membership card and the surprise that follows, read your App Store listing, and looked for gaps between what you already have and what you currently show people.</p>
+  <p class="body">What follows is four ideas — not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+  <div class="notes">
+    <div class="note"><h4>We did not redesign your app</h4><p>Every screen in the prototype is yours — your membership card, your “Choose your plan” paywall with its green plan cards and SAVE badge, your gift pop-up and your green paywall with “What you get”, the 4M+ laurels and Trustpilot. Only the order changed, plus a few things you already have but do not show at the right moment.</p></div>
+    <div class="note"><h4>You may have tested some of this</h4><p>We are working from the outside, so we cannot see your experiment history. If one of these is something you have already run, tell us — we will go deeper on the rest rather than repeat it.</p></div>
+  </div>
+</div></div>
+
+<div class="rule"></div>
+
+<div class="sec"><div class="wrap">
+  <div class="sec-k">The four ideas</div>
+  <h2>Ranked by what we would test first.</h2>
+  <p class="body">Each one links straight to the screen in the prototype.</p>
+  <div class="ideas">
+    <button class="idea" data-jump="gift"><span class="no">01</span><span>
+      <h3>Make the surprise a real gift</h3>
+      <p>“A little surprise for you!” and “Reveal my gift” open a paywall with the same 12-month price as the one they just closed. Your store already lists an Annual Subscription Promo Offer at half the annual price. Put that behind the gift box.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>ARPU +10–15%</b><span>second chance</span></span></button>
+    <button class="idea" data-jump="paywall"><span class="no">02</span><span>
+      <h3>Name their topic on the paywall</h3>
+      <p>The first paywall says “Choose your plan” to everyone. A moment later, home already shows the topic they picked and a 7-minute daily goal. Say “Start Biology, 7 minutes a day” where the price is.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>CR +15–20%</b><span>to purchase</span></span></button>
+    <button class="idea" data-jump="paywall"><span class="no">03</span><span>
+      <h3>Bring your proof to the first paywall</h3>
+      <p>“What you get”, Join 4M+, Trustpilot Excellent and your reviews all live on the second paywall, which only appears after someone has already said no. The first one carries a single review. Your 4.5 from 59K App Store ratings appears on neither.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>CR +10–15%</b><span>to purchase</span></span></button>
+    <button class="idea" data-jump="card"><span class="no">04</span><span>
+      <h3>Hand over the membership card before the price</h3>
+      <p>Your “Curious Explorer, Level 1” card is a lovely moment, and it arrives after the paywall has been closed. Shown first, with their topic and daily goal on it, it becomes the reason to say yes.</p>
+      <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="out"><b>CR +10–20%</b><span>to purchase</span></span></button>
+  </div>
+  <div class="band">
+    <div class="txt"><div class="lab">Potential outcome</div><p>Run together, these four put what the learner chose, and what others say about SmartyMe, in front of the first price, and turn the gift you already promise into one. Potential result: revenue up to +30%.</p></div>
+    <div class="nums"><div><b>+25%</b><span>CR to purchase</span></div><div><b>+30%</b><span>Revenue</span></div></div>
+  </div>
+  <div class="cta-row">
+    <div class="qr"><img src="img/qr.svg" alt="QR code for the prototype"><span><b>Or open it on your phone</b>Scan to try the flow in your hand.</span></div>
+    <button class="bigbtn" data-view="proto">Open the prototype <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </div>
+</div></div>
+<div class="foot"><div class="wrap">Impact ranges are Adapty's expected effect from teardowns and A/B tests across subscription apps — not measured lift for SmartyMe. Every price, rating, review and claim here and in the prototype comes from SmartyMe's own US App Store listing and in-app screens.</div></div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools">
+      <div class="seg" id="segTheme"><button data-theme="light" class="on">Light</button><button data-theme="dark">Dark</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button>
+    </div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar" id="sbar"><span>9:41</span><span class="glyphs">
+          <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+          <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg></span></div>
+        <div class="homebar" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="sm-toast" id="toast"></div>
+        <div class="screenwrap">
+
+<!-- MEMBERSHIP CARD (moved before the price) -->
+<section class="scr scr--card" data-id="card">
+  <div class="scr-top"><p class="sm-wel">Welcome to</p><h2 class="sm-ct">SmartyMe<br>Learning Community!</h2><p class="sm-cs">A space to grow smarter — together.<br>Here's your membership card.</p></div>
+  <div class="scr-body">
+    <div class="sm-cardwrap">
+      <svg class="sm-st" style="left:-62px;top:96px;width:30px;height:30px"><use href="#star"/></svg>
+      <svg class="sm-st" style="right:-44px;top:4px;width:26px;height:26px"><use href="#star"/></svg>
+      <svg class="sm-st" style="right:-50px;top:150px;width:58px;height:58px;opacity:.95"><use href="#star"/></svg>
+      <svg class="sm-st" style="left:-70px;top:250px;width:54px;height:54px"><use href="#star"/></svg>
+      <div class="sm-card">
+        <span class="sm-ctab">Membership card #591660</span>
+        <img class="sm-mag" src="img/magnifier.jpg" alt="">
+        <div class="sm-cname">Curious<br>Explorer</div>
+        <div class="sm-clvl">Level 1</div>
+        <div class="sm-cgoal" id="cardGoal"></div>
+        <div class="sm-chr"></div>
+        <div class="sm-cdate"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M4 4h7v7H4zM13 4a3.5 3.5 0 0 1 0 7V4zM4 13h7a3.5 3.5 0 0 1-7 0zM13 13h7v3.5a3.5 3.5 0 0 1-7 0z"/></svg><span id="cardDate"></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scr-foot"><button class="sm-claim" data-go="paywall">Claim and continue</button></div>
+</section>
+
+<!-- PAYWALL — Choose your plan -->
+<section class="scr scr--pay" data-id="paywall">
+  <button class="sm-x" id="payClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top"></div>
+  <div class="scr-body">
+    <h2 class="sm-ph" id="payH"></h2>
+    <p class="sm-psub" id="paySub"></p>
+    <div class="sm-stars"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></div>
+    <p class="sm-quote">I'm really enjoying learning this way! This app is absolutely worth your time.</p>
+    <div class="sm-qmeta"><span>App Store Review</span><span>Oct 2, 2026</span></div>
+    <div class="sm-proofrow"><img class="l" src="img/laurel-l.png" alt=""><div><b>Join 4M+</b><span>who chose SmartyMe · 4.5 ★ from 59K App Store ratings</span></div><img class="l" src="img/laurel-r.png" alt=""></div>
+    <div class="sm-plans" id="planList">
+      <button class="sm-plan" data-v="year"><span class="sm-save">SAVE 66%</span><span class="t">12 MONTHS PLAN</span><span class="r"><b>USD 59.99</b><span>1,15 US$ / week</span></span></button>
+      <button class="sm-plan" data-v="month"><span class="t">1 MONTH PLAN</span><span class="r"><b>USD 14.99</b><span>3,50 US$ / week</span></span></button>
+    </div>
+    <div class="sm-what"><h4>What you get with SmartyMe</h4><p><span>🧠</span>Grow smarter in 3 min a day</p><p><span>🎧</span>Listen or read on the go</p><p><span>🎮</span>Learn through fun games</p><p><span>📚</span>Explore 200+ courses</p></div>
+    <img class="sm-trust" src="img/trust.jpg" alt="Trustpilot · Excellent" style="margin:14px auto 6px">
+  </div>
+  <div class="scr-foot">
+    <button class="sm-cont" id="payCta">Continue</button>
+    <p class="sm-safe"><svg><use href="#shield"/></svg>Cancel anytime. Secure with App Store</p>
+    <div class="sm-legal"><a>Terms of use</a><a>Restore</a><a>Privacy policy</a></div>
+  </div>
+</section>
+
+<!-- HOME + THE SURPRISE -->
+<section class="scr scr--home" data-id="surprise">
+  <img class="sm-homeimg" src="img/home-top.jpg" alt=""><img class="sm-homeimg bot" src="img/home-bot.jpg" alt="">
+  <div class="sm-modal"><img src="img/gift.jpg" alt=""><h3>A little surprise for you!</h3><p id="giftHint"></p><button class="sm-reveal" id="revealBtn">Reveal my gift</button></div>
+</section>
+
+<!-- GIFT PAYWALL -->
+<section class="scr scr--gift sheet" data-id="gift">
+  <button class="sm-x" id="giftClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top"></div>
+  <div class="scr-body">
+    <h2 class="sm-gh">Your gift: half off your first year</h2>
+    <p class="sm-gs" id="giftSub"></p>
+    <div class="sm-gcard"><span class="tag">50% OFF</span><div class="t"><b>12 months plan</b><span>0,58 US$ per week</span></div><p class="s">USD 29.99 for your first year · <s>USD 59.99</s></p><p class="was">Same plan as before, at your Annual Promo Offer price. Then USD 59.99 a year.</p></div>
+    <div class="sm-gwhat"><h4>What you get with SmartyMe</h4><p><span>🧠</span>Grow smarter in 3 min a day</p><p><span>🎧</span>Listen or read on the go</p><p><span>🎮</span>Learn through fun games</p><p><span>📚</span>Explore 200+ courses</p></div>
+    <div class="sm-gproof"><div class="sm-proofrow" style="margin:0;padding:4px"><img class="l" src="img/laurel-l.png" alt=""><div><b>Join 4M+</b><span>who chose SmartyMe</span></div><img class="l" src="img/laurel-r.png" alt=""></div><img class="sm-trust" src="img/trust.jpg" alt="Trustpilot · Excellent"></div>
+    <div style="height:10px"></div>
+  </div>
+  <div class="scr-foot"><button class="sm-gcont" id="giftCta">Claim my gift</button><p class="sm-safe"><svg><use href="#shield"/></svg>Cancel anytime. Secure with App Store</p></div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Stop</button></div>
+    <div class="ctl" id="ctlTopic"><span>Their topic</span></div>
+    <div class="ctl" id="ctlGoal"><span>Daily goal</span></div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Jump to any screen — answers already filled in. The topic and goal come from your onboarding; change them to see every screen follow.</p>
+    <div class="qr"><img src="img/qr.svg" alt="QR code for this prototype"><span><b>Open it on your phone</b>Scan to try the flow in your hand.</span></div>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+var TOPICS=['Biology','Physics','Personal Finance','Communication'];
+var GOALS=[3,7,15];
+var S0={theme:'light'};
+function defaults(){ return {theme:S0.theme,topic:'Biology',goal:7,plan:'year'}; }
+var S=defaults();
+
+function buildCtl(){ var t=document.getElementById('ctlTopic'), g=document.getElementById('ctlGoal');
+  TOPICS.forEach(function(x){ var b=document.createElement('button'); b.className='chip'; b.dataset.v=x; b.textContent=x; b.onclick=function(){ stopDemo(); S.topic=x; syncScreen(); }; t.appendChild(b); });
+  GOALS.forEach(function(x){ var b=document.createElement('button'); b.className='chip'; b.dataset.v=x; b.textContent=x+' min'; b.onclick=function(){ stopDemo(); S.goal=x; syncScreen(); }; g.appendChild(b); }); }
+
+function syncScreen(){
+  document.querySelectorAll('#ctlTopic .chip').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.topic); });
+  document.querySelectorAll('#ctlGoal .chip').forEach(function(b){ b.classList.toggle('on',+b.dataset.v===S.goal); });
+  document.getElementById('cardGoal').textContent=S.topic+' · '+S.goal+' min a day';
+  document.getElementById('cardDate').textContent=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric'}).format(new Date()).replace(/ (\d{4})$/,', $1');
+  document.getElementById('payH').textContent='Start '+S.topic+', '+S.goal+' minutes a day';
+  document.getElementById('paySub').textContent='Your plan unlocks every '+S.topic+' lesson and 200+ courses.';
+  document.querySelectorAll('#planList .sm-plan').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.plan); });
+  document.getElementById('giftHint').textContent='For your first '+S.topic+' lessons.';
+  document.getElementById('giftSub').textContent='Keep going with '+S.topic+', '+S.goal+' minutes a day, for half the price of the year.';
+}
+
+var ORDER=['card','paywall','surprise','gift'];
+var LABEL={card:'Membership card',paywall:'Paywall',surprise:'The surprise',gift:'Gift on close'};
+var scr={}, hist=[], cur='card';
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+function chrome(){ var dark=S.theme==='dark'; document.getElementById('sbar').classList.toggle('light',dark||cur==='gift'); document.getElementById('homebar').classList.toggle('light',dark);
+   }
+function enter(id){ chrome(); paintChips(); paintPanel(); }
+function go(id){ if(id===cur) return; var from=scr[cur], to=scr[id]; hist.push(cur);
+  from.classList.remove('is-active'); if(!to.classList.contains('sheet')) from.classList.add('is-past'); else from.classList.add('is-active');
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  to.classList.remove('is-past'); to.classList.add('is-active'); cur=id; enter(id); }
+function jump(id){ var i=ORDER.indexOf(id);
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist=ORDER.slice(0,i<0?0:i); if(id==='gift') scr.surprise.classList.add('is-active');
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); enter(id); }
+function paintChips(){ var c=document.getElementById('chips');
+  if(!c.children.length) ORDER.forEach(function(id){ var b=document.createElement('button'); b.className='chip'+(id==='gift'?' offer':''); b.textContent=LABEL[id]; b.dataset.id=id; b.onclick=function(){ stopDemo(); jump(id); }; c.appendChild(b); });
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on',b.dataset.id===cur); }); }
+var toastT=null;
+function toast(m){ var el=document.getElementById('toast'); el.textContent=m||'The App Store purchase sheet opens here.'; el.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove('on'); },1600); }
+
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ go(b.dataset.go); }); });
+document.querySelectorAll('#planList .sm-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click',function(){ go('surprise'); });
+document.getElementById('revealBtn').addEventListener('click',function(){ go('gift'); });
+document.getElementById('giftClose').addEventListener('click',function(){ toast('Home, with the gift still waiting under Profile.'); });
+document.getElementById('payCta').addEventListener('click',function(){ toast(); });
+document.getElementById('giftCta').addEventListener('click',function(){ toast(); });
+function setSeg(id,a,v){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on',b.dataset[a]===v); }); }
+function setTheme(th){ S.theme=th; S0.theme=th; document.getElementById('phoneIn').classList.toggle('dark',th==='dark'); setSeg('segTheme','theme',th); chrome(); }
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger'), phoneIn=document.getElementById('phoneIn');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function cap(x){ document.getElementById('demoTxt').textContent=x; }
+async function tap(sel,tok){ if(demo.tok!==tok) throw 0; var el=document.querySelector(sel); if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160); if(demo.tok!==tok) throw 0; }
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  var th=S.theme; S=defaults(); S.theme=th; jump('card'); document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/290)+'%'; },200);
+  (async function(){ try{
+    cap('Onboarding ends on your membership card, with their topic and daily goal on it.'); await pause(2600,tok);
+    cap('Say they picked Physics instead — the card follows.'); S.topic='Physics'; syncScreen(); await pause(1800,tok);
+    await tap('[data-id=card] .sm-claim',tok);
+    cap('The paywall names their topic and goal, with your proof above the plans.'); await pause(2200,tok);
+    var b=scr.paywall.querySelector('.scr-body'); b.scrollTo({top:b.scrollHeight,behavior:'smooth'}); await pause(1400,tok);
+    await tap('#planList [data-v="month"]',tok); await pause(600,tok); await tap('#planList [data-v="year"]',tok); await pause(500,tok);
+    cap('They close it. Your surprise appears, as it does today.'); b.scrollTo({top:0}); await tap('#payClose',tok); await pause(2000,tok);
+    await tap('#revealBtn',tok);
+    cap('And now it is a real gift: your Annual Promo Offer, half the yearly price.'); await pause(3200,tok);
+    var g=scr.gift.querySelector('.scr-body'); g.scrollTo({top:g.scrollHeight,behavior:'smooth'}); await pause(1600,tok); g.scrollTo({top:0,behavior:'smooth'}); await pause(900,tok);
+    cap('That is the flow. Change the topic or goal under the phone to see every screen follow.');
+    finger.classList.remove('show'); await pause(2200,tok); stopDemo();
+  }catch(e){ if(e!==0) console.error(e); } })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press'); document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+</script>
+<script>
+var PANEL={
+card:{n:4,t:'Hand over the membership card before the price',
+ hyp:'Try ending onboarding on this card, with their topic and daily goal on it, <b>because today it arrives after the paywall has been closed, when the moment to use it has passed</b>. Change the topic under the phone and the card follows.',
+ kept:'Your card exactly — #591660, the magnifier, Curious Explorer, Level 1, the date, the stars, “A space to grow smarter — together” and Claim and continue. One line is added on the card: topic and minutes a day.',
+ out:'CR +10–20%'},
+paywall:{n:2,t:'Name their topic on the paywall',
+ hyp:'Try “Start Biology, 7 minutes a day” in place of “Choose your plan”, <b>because home already shows the topic and the 7-minute goal they set, a few seconds after this screen</b>.',
+ n2:3,
+ hyp2:'Try your “What you get” list, Join 4M+, Trustpilot Excellent and your 4.5 from 59K App Store ratings above the plans, <b>because today they only appear on the second paywall, after the first no</b>.',
+ out2:'CR +10–15%',
+ kept:'Your soft green gradient, the five stars and the App Store review, your two plan cards with SAVE 66%, the green Continue and the “Cancel anytime” line. Prices are your US App Store prices.',
+ out:'CR +15–20%'},
+surprise:{ctx:true,t:'A little surprise for you!',
+ kept:'Your gift pop-up over home, exactly as it ships — the box, the copy and Reveal my gift — with one line added saying what the gift is for. What changes is what it opens (idea 1).'},
+gift:{n:1,t:'Make the surprise a real gift',
+ hyp:'Try your Annual Subscription Promo Offer behind the gift box, <b>because today “Reveal my gift” opens a paywall with the same 12-month price they just declined</b>. USD 29.99 is half of USD 59.99, and both are on your store listing, so nothing is invented.',
+ kept:'Your green paywall — the headline style, the white plan card with its dark-green badge, “What you get” with its emoji, the 4M+ laurels, Trustpilot and the docked green Continue.',
+ out:'ARPU +10–15%'}
+};
+function outBlock(l,v){ return '<div class="pn-out"><div class="lab">'+l+'</div><div class="v">'+v+'</div></div>'; }
+function paintPanel(){ var d=PANEL[cur]; if(!d) return; var h='';
+  if(d.ctx){ h+='<div class="pn-n ctx">Context · no change proposed</div><h3 class="pn-t">'+d.t+'</h3><div class="pn-kept">'+d.kept+'</div>'; }
+  else { h+='<div class="pn-n">Idea '+d.n+' of 4</div><h3 class="pn-t">'+d.t+'</h3><p class="pn-hyp">'+d.hyp+'</p>'+outBlock('Potential outcome · based on Adapty data',d.out);
+    if(d.hyp2) h+='<div class="pn-sep"></div><div class="pn-n">Idea '+d.n2+' of 4</div><p class="pn-hyp" style="margin-top:12px">'+d.hyp2+'</p>'+outBlock('Potential outcome · based on Adapty data',d.out2);
+    h+='<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>'; }
+  h+='<div class="pn-foot">Ranges are Adapty’s expected effect from tests across 30,000+ subscription apps — not measured lift for SmartyMe. Prices, ratings, reviews and claims come from your own published material.</div>';
+  document.getElementById('panel').innerHTML=h; }
+function showView(v){ if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); }); document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on',b.dataset.view===v); }); window.scrollTo(0,0); }
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); jump(b.dataset.jump); }); });
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+buildCtl(); scr.card.classList.add('is-active'); syncScreen(); chrome(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+</script>
+</body>
+</html>
